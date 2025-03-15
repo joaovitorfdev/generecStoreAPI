@@ -9,6 +9,12 @@ class Product(BaseModel):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.CharField(max_length=100, choices=Categories.choices )
     
+    
+    @property
+    def stocks(self):
+        """Retorna a lista de estoques do produto com os campos exigidos pelo schema."""
+        return list(self.stock.values("id", "product_id", "size", "quantity"))
+    
     def __str__(self):
         return self.name
 
