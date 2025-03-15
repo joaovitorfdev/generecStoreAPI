@@ -1,0 +1,65 @@
+### Geral ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+
+### Banco de Dados ###
+db.sqlite3
+db.sqlite3-journal
+*.db
+*.sqlite
+
+### Arquivos estáticos e de mídia ###
+static/
+media/
+mediafiles/
+staticfiles/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+
+### Django ###
+*.mo
+*.py,cover
+.hypothesis/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+### IDEs ###
+.vscode/
+.idea/
+*.iml
+
+### Virtual Environments ###
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+### PIP / Poetry / PDM ###
+pip-log.txt
+pip-delete-this-directory.txt
+Pipfile.lock
+poetry.lock
+pdm.lock
+
+### Compilados ###
+*.py[cod]
+*$py.class
+cython_debug/
+
+### Outros ###
+.DS_Store
+Thumbs.db
