@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
 from decouple import config
 from pathlib import Path
 
@@ -28,6 +29,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
+MEDIA_URL = '/media/'  # URL base para acessar as imagens
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
 
 # Application definition
 
