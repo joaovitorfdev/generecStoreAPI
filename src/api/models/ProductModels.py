@@ -15,11 +15,22 @@ class Product(BaseModel):
         """Retorna a lista de estoques do produto com os campos exigidos pelo schema."""
         return list(self.stock.values("id", "product_id", "size", "quantity"))
     
+    @property
+    def images(self):
+         return [
+        {
+            "is_main": img.is_main,
+            "image": img.image,
+            "image_url": img.image.url if img.image else None,
+        }
+        for img in self.productimage_set.all()
+    ]
+    
     def __str__(self):
         return self.name
 
 class ProductImage(BaseModel):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="products/", blank=True)
     is_main = models.BooleanField(default=False)  
 

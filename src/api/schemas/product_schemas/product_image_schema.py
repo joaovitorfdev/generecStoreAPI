@@ -12,7 +12,6 @@ class ProductImageCreateBaseSchema(ProductImageBaseSchema):
     is_main: bool
     product_id: UUID
     
-    
 class ProductImageResponse(BaseModel):
     is_main: bool
     image_url: str

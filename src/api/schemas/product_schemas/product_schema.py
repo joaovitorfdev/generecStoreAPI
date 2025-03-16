@@ -3,6 +3,7 @@ from uuid import UUID
 from pydantic import BaseModel
 
 from api.schemas.product_schemas.stock_schema import StockBaseSchema
+from api.schemas.product_schemas.product_image_schema import ProductImageResponse,ProductImageTeste
 
 class ProductBaseSchema(BaseModel):
     name:str
@@ -21,3 +22,4 @@ class ProductPatchSchema(BaseModel):
 class ProductResponse(ProductBaseSchema):
     id: UUID
     stocks: list[StockBaseSchema] | None = None
+    images: list[ProductImageResponse] | None = None
