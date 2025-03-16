@@ -14,16 +14,12 @@ class ProductImageCreateBaseSchema(ProductImageBaseSchema):
     
 class ProductImageResponse(BaseModel):
     is_main: bool
-    image_url: str
     image: Optional[Any] = None
 
     @field_serializer("image")
     def serialize_logo(self, image: Optional[Any]) -> Optional[str]:
         return image.url if image else None
 
-    @field_serializer("image_url")
-    def serialize_image_url(self, image_url: Optional[str]) -> Optional[str]:
-        return self.image.url if self.image else None
 
     class Config:
         from_attributes = True

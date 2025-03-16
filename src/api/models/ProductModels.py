@@ -21,7 +21,6 @@ class Product(BaseModel):
         {
             "is_main": img.is_main,
             "image": img.image,
-            "image_url": img.image.url if img.image else None,
         }
         for img in self.productimage_set.all()
     ]
