@@ -17,13 +17,8 @@ class Product(BaseModel):
     
     @property
     def images(self):
-         return [
-        {
-            "is_main": img.is_main,
-            "image": img.image,
-        }
-        for img in self.productimage_set.all()
-    ]
+        return self.productimage_set.order_by("-is_main").all()
+    
     
     def __str__(self):
         return self.name
