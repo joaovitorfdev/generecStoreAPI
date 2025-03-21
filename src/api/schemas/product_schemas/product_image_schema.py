@@ -8,7 +8,7 @@ class ProductImageBaseSchema(BaseModel):
     class Config:
         from_attributes = True
     
-class ProductImageCreateBaseSchema(ProductImageBaseSchema):
+class ProductImageCreateSchema(ProductImageBaseSchema):
     is_main: bool
     product_id: UUID
     

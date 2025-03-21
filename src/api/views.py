@@ -1,10 +1,14 @@
-from ninja import NinjaAPI
-from .routers.product_router.api import router as product_router
+from .routers.public_router.api import router as product_router
+from .routers.admin_router.api import router as admin_router
+from ninja_jwt.controller import NinjaJWTDefaultController
+from ninja_jwt.authentication import JWTAuth
+from ninja_extra import NinjaExtraAPI
 
-
-api = NinjaAPI(
+api = NinjaExtraAPI(
     title="GenericStore API",
-    description="Backend of my personal project GenericStore"
+    description="Backend of my personal project GenericStore",
 )
 
+api.register_controllers(NinjaJWTDefaultController)
 api.add_router('/products', product_router, tags=['Products'])
+api.add_router('/admin', admin_router, tags=['Admin'], auth=JWTAuth())
