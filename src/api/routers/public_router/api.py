@@ -1,7 +1,7 @@
 from uuid import UUID
 import uuid
 from ninja import File, Form, Router, UploadedFile
-from api.models.ProductModels import Product,ProductImage
+from api.models.product_models import Product,ProductImage
 from api.schemas.product_schemas.product_schema import ProductResponse
 from api.schemas.product_schemas.product_image_schema import ProductImageCreateSchema,ProductImageResponse
 from django.db.models import Count

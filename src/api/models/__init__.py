@@ -1,1 +1,1 @@
-from .ProductModels import Product, ProductImage,Stock
+from .product_models import Product, ProductImage,Stock
