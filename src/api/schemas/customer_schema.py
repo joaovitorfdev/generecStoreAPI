@@ -1,5 +1,5 @@
 from typing import Any, Optional
-from pydantic import BaseModel, EmailStr, field_serializer, field_validator
+from pydantic import BaseModel, EmailStr
 from uuid import UUID
 from datetime import datetime
 
@@ -22,13 +22,9 @@ class CustomerCreateRequest(CustomerBaseSchema):
     pass
 
 class CustomerUpdateRequest(CustomerBaseSchema):
-    city_id: int
-    vehicles_id: Optional[list[UUID]] = None
-
+    pass
 
 class CustomerPatchRequest(BaseModel):
-    city_id: Optional[int] = None
-    vehicles_id: Optional[list[UUID]] = None
     name: Optional[str] = None
     email: Optional[EmailStr] = None
     active: Optional[bool] = None

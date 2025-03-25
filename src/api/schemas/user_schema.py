@@ -5,7 +5,7 @@ from uuid import UUID
 from ninja import Field
 from pydantic import BaseModel, EmailStr
 
-from api.schemas.customer_schema import CustomerResponse
+from api.schemas.customer_schema import CustomerResponse,CustomerCreateRequest
 from api.schemas.group_schema import GroupResponse
 
 
@@ -23,8 +23,8 @@ class UserBaseSchema(BaseModel):
 # Schema for creating a new user
 class UserCreateRequest(UserBaseSchema):
     password: str
-    group_id: int
-    customer_id: Optional[UUID] = None  # Optional customer ID
+    #group_id: int
+   # customer_id: Optional[UUID] = None  # Optional customer ID
     
 # Schema for updating user information
 class UserUpdateRequest(UserBaseSchema):
@@ -56,3 +56,7 @@ class UserResponse(UserBaseSchema):
             customer = CustomerResponse.model_validate(obj.customer)   
         
         return cls(**obj.__dict__, groups=groups, customer=customer, **kwargs)
+    
+class CreateCustomerUser(BaseModel):
+    user: UserCreateRequest
+    customer: CustomerCreateRequest

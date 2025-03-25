@@ -10,6 +10,7 @@ router = Router()
 
 @router.post("/products", response={201: ProductBaseSchema})
 def create_product(request,model: ProductResponse):
+  
     item = Product.objects.create(**model.model_dump())
     return ProductBaseSchema.model_validate(item)
 
