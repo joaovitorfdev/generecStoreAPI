@@ -3,12 +3,13 @@ from django.http import HttpRequest
 from ninja import Router
 from api.models.product_models import Product
 from api.schemas.product_schemas.product_schema import ProductResponse
-from api.models.customer import Customer
+from api.models.customer import Customer, CustomerAddress
 from api.models.user import User
 from api.schemas.user_schema import CreateCustomerUser, UserResponse
 from api.schemas.customer_schema import CustomerResponse, CustomerCreateRequest
 from django.db.models import Count
 from ninja_jwt.authentication import JWTAuth
+from django.db import transaction
 
 router = Router()
 
@@ -19,18 +20,20 @@ def get_me(request: HttpRequest):
     return UserResponse.model_validate(request.user)
 
 @router.post("/customers", response={201: UserResponse})
+@transaction.atomic
 def create_customer(request: HttpRequest, model: CreateCustomerUser):
-    # Cria o Customer
     customer = Customer.objects.create(**model.customer.model_dump())
+    CustomerAddress.objects.create(
+        customer=customer,
+        **model.address.model_dump()
+    )
     
-    # Prepara os dados do User
     user_data = model.user.model_dump(exclude={"customer"})
-    password = user_data.pop("password")  # Remove a senha do dicionário
+    password = user_data.pop("password")
     
-    # Cria o User com os dados e associa o customer
     user = User.objects.create(**user_data, customer=customer, is_active=True)
-    user.set_password(password)  # Criptografa a senha
-    user.save()  # Salva o usuário com a senha criptografada
+    user.set_password(password)
+    user.save()
     
     return UserResponse.model_validate(user)
 

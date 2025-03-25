@@ -8,10 +8,6 @@ class CustomerBaseSchema(BaseModel):
     email: EmailStr
     document: str
     phone: str
-    zip_code: str
-    street: str
-    complement: Optional[str] = None
-    neighborhood: str
     number: str
 
     class Config:
@@ -33,5 +29,19 @@ class CustomerResponse(CustomerBaseSchema):
     id: UUID
     created_at: datetime
     disabled_at: Optional[datetime] = None
+    
+class CustomerAndressBaseSchema(BaseModel):
+    zip_code: str
+    street: str
+    complement: Optional[str] = None
+    neighborhood: str
+
+    class Config:
+        from_attributes = True
+        
+class CustomerAdressCreateRequest(CustomerAndressBaseSchema):
+    pass
+
+
     
   

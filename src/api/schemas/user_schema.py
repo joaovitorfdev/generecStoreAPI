@@ -5,8 +5,9 @@ from uuid import UUID
 from ninja import Field
 from pydantic import BaseModel, EmailStr
 
-from api.schemas.customer_schema import CustomerResponse,CustomerCreateRequest
+from api.schemas.customer_schema import CustomerResponse,CustomerCreateRequest,CustomerAdressCreateRequest
 from api.schemas.group_schema import GroupResponse
+
 
 
 class UserBaseSchema(BaseModel):
@@ -60,3 +61,4 @@ class UserResponse(UserBaseSchema):
 class CreateCustomerUser(BaseModel):
     user: UserCreateRequest
     customer: CustomerCreateRequest
+    address: CustomerAdressCreateRequest
