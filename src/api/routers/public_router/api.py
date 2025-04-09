@@ -3,9 +3,9 @@ from django.http import HttpRequest
 from ninja import Router
 from api.models.product_models import Product
 from api.schemas.product_schemas.product_schema import ProductResponse
-from api.models.customer import Customer, CustomerAddress
+from api.models.customer import  CustomerAddress
 from api.models.user import User
-from api.schemas.user_schema import CreateCustomerUser, UserResponse
+from api.schemas.user_schema import  UserCreateRequest, UserResponse
 from api.schemas.customer_schema import CustomerResponse, CustomerCreateRequest
 from django.db.models import Count
 from ninja_jwt.authentication import JWTAuth
@@ -21,18 +21,9 @@ def get_me(request: HttpRequest):
 
 @router.post("/customers", response={201: UserResponse})
 @transaction.atomic
-def create_customer(request: HttpRequest, model: CreateCustomerUser):
-    customer = Customer.objects.create(**model.customer.model_dump())
-    CustomerAddress.objects.create(
-        customer=customer,
-        **model.address.model_dump()
-    )
-    
-    user_data = model.user.model_dump(exclude={"customer"})
-    password = user_data.pop("password")
-    
-    user = User.objects.create(**user_data, customer=customer, is_active=True)
-    user.set_password(password)
+def create_customer(request: HttpRequest, model: UserCreateRequest):
+    user = User.objects.create(**model.model_dump(), is_active=True)
+    user.set_password(model.password)
     user.save()
     
     return UserResponse.model_validate(user)

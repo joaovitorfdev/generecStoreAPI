@@ -14,6 +14,7 @@ class UserBaseSchema(BaseModel):
     first_name: str
     last_name: str
     username: str
+    document: str
     email: EmailStr
 
     class Config:
@@ -45,20 +46,7 @@ class UserPatchRequest(BaseModel):
 
 class UserResponse(UserBaseSchema):
     id: UUID
-    customer: Optional[CustomerResponse] = None    
-    groups: List[GroupResponse]
     created_at: datetime = Field(..., alias="date_joined")
     
-    @classmethod
-    def model_validate(cls, obj, **kwargs):
-        groups = [GroupResponse(id=group.id, name=group.name) for group in obj.groups.all()]
-        customer = None
-        if obj.customer:
-            customer = CustomerResponse.model_validate(obj.customer)   
-        
-        return cls(**obj.__dict__, groups=groups, customer=customer, **kwargs)
+   
     
-class CreateCustomerUser(BaseModel):
-    user: UserCreateRequest
-    customer: CustomerCreateRequest
-    address: CustomerAdressCreateRequest

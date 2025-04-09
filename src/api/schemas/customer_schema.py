@@ -4,12 +4,7 @@ from uuid import UUID
 from datetime import datetime
 
 class CustomerBaseSchema(BaseModel):
-    name: str
-    email: EmailStr
     document: str
-    phone: str
-    number: str
-
     class Config:
         from_attributes = True
 
@@ -21,9 +16,7 @@ class CustomerUpdateRequest(CustomerBaseSchema):
     pass
 
 class CustomerPatchRequest(BaseModel):
-    name: Optional[str] = None
-    email: Optional[EmailStr] = None
-    active: Optional[bool] = None
+    pass 
 
 class CustomerResponse(CustomerBaseSchema):
     id: UUID
@@ -35,6 +28,7 @@ class CustomerAndressBaseSchema(BaseModel):
     street: str
     complement: Optional[str] = None
     neighborhood: str
+    number: str
 
     class Config:
         from_attributes = True
