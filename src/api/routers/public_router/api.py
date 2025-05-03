@@ -13,12 +13,6 @@ from django.db import transaction
 
 router = Router()
 
-@router.get("/me", response=UserResponse, auth=JWTAuth())
-def get_me(request: HttpRequest):
-    if not request.user.is_authenticated:
-        return 404, None
-    return UserResponse.model_validate(request.user)
-
 @router.post("/customers", response={201: UserResponse})
 @transaction.atomic
 def create_customer(request: HttpRequest, model: UserCreateRequest):
