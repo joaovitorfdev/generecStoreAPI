@@ -8,6 +8,7 @@ from .base.base_model import BaseModel
         
 class CustomerAddress(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_main = models.BooleanField(default=False)
     zip_code = models.CharField(max_length=8)
     street = models.CharField(max_length=255)
     complement = models.CharField(max_length=255, null=True, blank=True)
@@ -17,3 +18,7 @@ class CustomerAddress(BaseModel):
     
     def __str__(self):
         return f"{self.user.username} - {self.zip_code}"
+    
+    class Meta:
+        ordering = ["-is_main"]
+    

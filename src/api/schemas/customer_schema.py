@@ -1,41 +1,25 @@
+from ninja import ModelSchema
 from typing import Any, Optional
 from pydantic import BaseModel, EmailStr
 from uuid import UUID
 from datetime import datetime
+from ..models.customer import CustomerAddress
 
-class CustomerBaseSchema(BaseModel):
-    document: str
-    class Config:
-        from_attributes = True
-
-
-class CustomerCreateRequest(CustomerBaseSchema):
-    pass
-
-class CustomerUpdateRequest(CustomerBaseSchema):
-    pass
-
-class CustomerPatchRequest(BaseModel):
-    pass 
-
-class CustomerResponse(CustomerBaseSchema):
-    id: UUID
-    created_at: datetime
-    disabled_at: Optional[datetime] = None
+class CustomerAndressResponse(ModelSchema):
     
-class CustomerAndressBaseSchema(BaseModel):
-    zip_code: str
-    street: str
-    complement: Optional[str] = None
-    neighborhood: str
-    number: str
-
-    class Config:
+    class Meta:
+        model = CustomerAddress
+        fields = "__all__"
+        
         from_attributes = True
         
-class CustomerAdressCreateRequest(CustomerAndressBaseSchema):
-    pass
-
+class CustomerAndressCreate(ModelSchema):
+    complement: str | None = None
+    class Meta:
+        model = CustomerAddress
+        fields = "__all__"
+        exclude = ["id","created_at", "disabled_at", "user"]
+        from_attributes = True
 
     
   

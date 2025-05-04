@@ -6,7 +6,6 @@ from api.schemas.product_schemas.product_schema import ProductResponse
 from api.models.customer import  CustomerAddress
 from api.models.user import User
 from api.schemas.user_schema import  UserCreateRequest, UserResponse
-from api.schemas.customer_schema import CustomerResponse, CustomerCreateRequest
 from django.db.models import Count
 from ninja_jwt.authentication import JWTAuth
 from django.db import transaction
