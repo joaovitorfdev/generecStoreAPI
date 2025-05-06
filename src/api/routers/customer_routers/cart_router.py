@@ -21,7 +21,7 @@ def edit_cart_item(request: HttpRequest, cart_item_Id:UUID, model:CartItemPatch)
     CartItem.objects.filter(id=cart_item_Id).update(**model.model_dump(exclude_unset=True))
     return 204 , None
 
-@router.patch("/cart/{cart_item_Id}", response={204:None})
+@router.delete("/cart/{cart_item_Id}", response={204:None})
 def remove_cart_item(request: HttpRequest, cart_item_Id:UUID):
     if not request.user.is_authenticated:
         return 404, None

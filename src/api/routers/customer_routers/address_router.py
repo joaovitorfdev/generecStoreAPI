@@ -16,7 +16,7 @@ def get_addresses(request: HttpRequest):
 def add_address(request:HttpRequest, model: CustomerAndressCreate):
     if not request.user.is_authenticated:
         return 404, None
-    return CustomerAddress.objects.create(user=request.user, **model.model_dump())
+    return CustomerAddress.objects.create(user=request.user, **model.model_dump(exclude_unset=True))
 
 @router.delete("/addresses/{address_id}", response={204:None})
 def delete_address(request:HttpRequest,address_id:UUID):
