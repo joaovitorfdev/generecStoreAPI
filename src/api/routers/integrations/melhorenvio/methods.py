@@ -34,9 +34,9 @@ def calcular_frete(from_cep: str, to_cep: str, cart_items: list[FreightItemsRequ
             continue  # ou lançar erro se quiser
 
         products_payload.append({
-            "width":           float(produto.width),
-            "height":          float(produto.height),
-            "length":          float(produto.length),
+            "width":           int(produto.width),
+            "height":          int(produto.height),
+            "length":          int(produto.length),
             "weight":          float(produto.weight),
             "insurance_value": float(produto.price),
             "quantity":        item.quantity
@@ -46,10 +46,10 @@ def calcular_frete(from_cep: str, to_cep: str, cart_items: list[FreightItemsRequ
         "from":     { "postal_code": from_cep },
         "to":       { "postal_code": to_cep },
         "products": products_payload,
-        "services": "1,2,18"
+        "services": "1,2,3"
     }
 
+    
     resp = requests.post(url, json=body, headers=headers)
     resp.raise_for_status()
-    print(resp.json())
     return resp.json()

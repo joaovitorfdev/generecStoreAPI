@@ -8,10 +8,11 @@ class Product(BaseModel):
     description = models.TextField(blank=True)
     category = models.CharField(max_length=100, choices=Categories.choices)
     
-    width = models.DecimalField(max_digits=10, decimal_places=2)
-    height = models.DecimalField(max_digits=10, decimal_places=2)
-    length = models.DecimalField(max_digits=10, decimal_places=2)
-    weight = models.DecimalField(max_digits=10, decimal_places=2)
+    width = models.IntegerField()
+    height = models.IntegerField()
+    length = models.IntegerField()
+    
+    weight = models.DecimalField(max_digits=10, decimal_places=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     
     @property
