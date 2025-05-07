@@ -13,6 +13,7 @@ class Cart(models.Model):
     def subtotal(self) -> float:
         # soma o subtotal de cada item do carrinho
         return sum(item.subtotal for item in self.items.all())
+    
     def __str__(self):
         return f"Carrinho #{self.id} – {self.user.username}"
 

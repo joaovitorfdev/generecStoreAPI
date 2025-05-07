@@ -19,12 +19,10 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from genericStore import settings
 from api.views import api
-from integrations.views import api as integrations
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', api.urls),
-    path('integrations/', integrations.urls)
     
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

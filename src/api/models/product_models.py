@@ -6,9 +6,13 @@ from .enums.size_enum import Sizes
 class Product(BaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.CharField(max_length=100, choices=Categories.choices )
+    category = models.CharField(max_length=100, choices=Categories.choices)
     
+    width = models.DecimalField(max_digits=10, decimal_places=2)
+    height = models.DecimalField(max_digits=10, decimal_places=2)
+    length = models.DecimalField(max_digits=10, decimal_places=2)
+    weight = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     
     @property
     def stocks(self):
