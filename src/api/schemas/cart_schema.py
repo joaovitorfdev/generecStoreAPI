@@ -32,9 +32,16 @@ class CartItemResponse(ModelSchema):
         from_attributes = True
 
         
+class CartPatchRequest(ModelSchema):
+    class Meta:
+        model = Cart
+        fields = ["service", "to_cep"]
+        from_attributes = True
+        
 class CartResponse(ModelSchema):
     items: list[CartItemResponse] = []
     subtotal: float
+    service:int
     class Meta:
         model = Cart
         fields = ["id"]
