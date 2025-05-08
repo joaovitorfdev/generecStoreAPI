@@ -3,11 +3,10 @@ from django.http import HttpRequest
 from ninja import Router
 from api.models.product_models import Product
 from api.schemas.product_schemas.product_schema import ProductResponse
-from api.models.customer import  CustomerAddress
+from api.models.cart import  Cart
 from api.models.user import User
 from api.schemas.user_schema import  UserCreateRequest, UserResponse
 from django.db.models import Count
-from ninja_jwt.authentication import JWTAuth
 from django.db import transaction
 
 router = Router()
@@ -16,6 +15,7 @@ router = Router()
 @transaction.atomic
 def create_customer(request: HttpRequest, model: UserCreateRequest):
     user = User.objects.create(**model.model_dump(), is_active=True)
+    Cart.objects.create(user=user)
     user.set_password(model.password)
     user.save()
     

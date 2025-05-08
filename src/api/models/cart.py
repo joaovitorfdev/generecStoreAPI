@@ -1,5 +1,8 @@
+from decimal import Decimal
 import uuid
 from django.db import models
+
+from api.routers.integrations.melhorenvio.methods import FreightItemsRequest, calcular_frete
 from .base.base_model import BaseModel
 from .user import User
 from .product_models import Product  
@@ -8,12 +11,35 @@ from .enums.size_enum import Sizes
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="cart", db_column="user_id")
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
+    to_cep = models.CharField(max_length=8, blank=True, null=True)
+    service = models.IntegerField(default=0)
     @property
-    
-    def subtotal(self) -> float:
-        # soma o subtotal de cada item do carrinho
-        return sum(item.subtotal for item in self.items.all())
-    
+    def subtotal(self) -> Decimal:
+        product_total = sum(item.subtotal for item in self.items.all())
+
+        if not self.to_cep or self.service == 0:
+            return product_total
+
+        freight_requests = [
+            FreightItemsRequest(
+                product_id=item.product.id,
+                quantity=item.quantity
+            )
+            for item in self.items.all()
+        ]
+
+        services = calcular_frete(to_cep=self.to_cep, cart_items=freight_requests)
+        selected = next((s for s in services if s.get("id") == self.service), None)
+
+        if not selected or not selected.get("price"):
+            self.service = 0
+            self.save(update_fields=["service"])
+            return product_total
+
+        price_str = selected["price"]
+        freight_cost = Decimal(price_str.replace(",", "."))
+        return product_total + freight_cost
+
     def __str__(self):
         return f"Carrinho #{self.id} – {self.user.username}"
 
