@@ -1,0 +1,22 @@
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  pgsqldata:
+
+services:
+  db:
+    image: postgres:17.2
+    container_name: genericstore-database
+    shm_size: 512mb
+    environment:
+      POSTGRES_PASSWORD: 123456asc
+      POSTGRES_DB: genericstore
+    volumes:
+      - pgsqldata:/var/lib/postgresql/data
+      - ./deploy/init-db:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
+    networks:
+      - backend

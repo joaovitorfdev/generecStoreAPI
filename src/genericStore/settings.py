@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-*)x@cz66ex$%i!^u7gjrg(xp!n7a%4_6i$k#lfft*1p*vg-gq1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 MEDIA_URL = '/media/'  # URL base para acessar as imagens
@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'ninja_extra',
     'corsheaders',
     'api',
-    
 ]
 
 AUTH_USER_MODEL = 'api.User'

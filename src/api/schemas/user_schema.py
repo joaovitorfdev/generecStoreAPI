@@ -16,13 +16,10 @@ class UserCreateRequest(ModelSchema):
         fields = [
             "first_name",
             "last_name",
-            "username",
-            "document",
             "email",
             "password",
         ]
         from_attributes = True
-
 
 class UserUpdateRequest(ModelSchema):
     class Meta:
@@ -31,7 +28,6 @@ class UserUpdateRequest(ModelSchema):
             "first_name",
             "last_name",
             "username",
-            "document",
             "email",
             "password",
         ]
@@ -57,7 +53,6 @@ class UserResponse(ModelSchema):
             "first_name",
             "last_name",
             "username",
-            "document",
             "email",
             "date_joined",
         ]

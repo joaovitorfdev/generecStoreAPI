@@ -42,7 +42,7 @@ class CartResponse(ModelSchema):
     items: list[CartItemResponse] = []
     subtotal: float
     service:int
-    to_cep:str
+    to_cep:str | None = None
     class Meta:
         model = Cart
         fields = ["id"]

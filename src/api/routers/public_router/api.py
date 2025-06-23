@@ -11,14 +11,20 @@ from django.db import transaction
 
 router = Router()
 
-@router.post("/customers", response={201: UserResponse})
+@router.post("/register", response={201: UserResponse})
 @transaction.atomic
-def create_customer(request: HttpRequest, model: UserCreateRequest):
-    user = User.objects.create(**model.model_dump(), is_active=True)
-    Cart.objects.create(user=user)
+def create_user(request: HttpRequest, model: UserCreateRequest):
+    user = User(
+        username=model.email,
+        email=model.email,
+        first_name=model.first_name,
+        last_name=model.last_name,
+    )
     user.set_password(model.password)
     user.save()
-    
+
+    Cart.objects.create(user=user)
+
     return UserResponse.model_validate(user)
 
 @router.get("/products", response=list[ProductResponse])

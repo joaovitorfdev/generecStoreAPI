@@ -1,3 +1,4 @@
+from .routers.token.api import router as tokens_router, CustomTokenObtainPairView
 from .routers.public_router.api import router as public_router
 from .routers.customer_routers.api import router as customer_router
 from .routers.customer_routers.cart_router import router as cart_router
@@ -13,7 +14,8 @@ api = NinjaExtraAPI(
     title="GenericStore API",
     description="Backend of my personal project GenericStore",
 )
- 
+api.register_controllers(CustomTokenObtainPairView)
+api.add_router("/tokens", tokens_router, tags=["token"], auth=None)
 api.register_controllers(NinjaJWTDefaultController)
 api.add_router('/customer', customer_router, tags=['Customer'], auth=JWTAuth())
 api.add_router('/customer', cart_router, tags=['Customer'], auth=JWTAuth())
