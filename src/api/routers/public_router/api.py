@@ -2,11 +2,10 @@ from uuid import UUID
 from django.http import HttpRequest
 from ninja import Router
 from api.models.product_models import Product
-from api.schemas.product_schemas.product_schema import ProductResponse
+from api.schemas.product_schemas.product_schema import ProductResponse, MinimumProductResponse
 from api.models.cart import  Cart
 from api.models.user import User
 from api.schemas.user_schema import  UserCreateRequest, UserResponse
-from django.db.models import Count
 from django.db import transaction
 
 router = Router()
@@ -27,10 +26,10 @@ def create_user(request: HttpRequest, model: UserCreateRequest):
 
     return UserResponse.model_validate(user)
 
-@router.get("/products", response=list[ProductResponse])
+@router.get("/products", response=list[MinimumProductResponse])
 def list_products(request):
-    products = Product.objects.annotate(image_count=Count("productimage")).filter(image_count__gt=0).order_by("-created_at")
-    return [ProductResponse.model_validate(p) for p in products]
+    products = Product.objects.order_by("-created_at")
+    return products
 
 @router.get("/products/{id}", response=ProductResponse)
 def get_product_by_id(request, id:UUID):

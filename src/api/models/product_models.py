@@ -7,12 +7,15 @@ class Product(BaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     category = models.CharField(max_length=100, choices=Categories.choices)
+    features = models.JSONField(default=list)  # lista de strings
+    specifications = models.JSONField(default=dict)
     
     width = models.IntegerField()
     height = models.IntegerField()
     length = models.IntegerField()
-    
     weight = models.DecimalField(max_digits=10, decimal_places=1)
+
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     
     @property
@@ -21,15 +24,25 @@ class Product(BaseModel):
         return list(self.stock.values("id", "product_id", "size", "quantity"))
     
     @property
-    def images(self):
-        return self.productimage_set.order_by("-is_main").all()
+    def images_urls(self) -> list[str]:
+        """
+        Retorna todas as imagens (imagem.image.url) 
+        do produto, na ordem que quiser (por ex: is_main primeiro).
+        """
+        qs = self.images.all().order_by("-is_main", "created_at")
+        return [img.image.url for img in qs]
     
+    @property
+    def image(self):
+        first_image = self.images.order_by("-is_main")[0].image.url
+        if first_image:
+            return first_image
     
     def __str__(self):
         return self.name
 
 class ProductImage(BaseModel):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to="products/", blank=True)
     is_main = models.BooleanField(default=False)  
 

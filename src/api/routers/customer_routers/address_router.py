@@ -6,6 +6,8 @@ from api.models.customer import  CustomerAddress
 
 router = Router()
 
+
+
 @router.get("/addresses", response=list[CustomerAndressResponse])
 def get_addresses(request: HttpRequest):
     if not request.user.is_authenticated:

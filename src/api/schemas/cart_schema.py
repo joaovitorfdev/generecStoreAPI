@@ -4,7 +4,7 @@ from typing import Any, Optional
 from uuid import UUID
 from ninja import ModelSchema
 from ..models.cart import Cart, CartItem
-from .product_schemas.product_schema import ProductResponse
+from .product_schemas.product_schema import MinimumProductResponse
 
 
 class CartItemCreate(ModelSchema):
@@ -24,14 +24,13 @@ class CartItemPatch(ModelSchema):
         from_attributes = True
 
 class CartItemResponse(ModelSchema):
-    product:ProductResponse
+    product:MinimumProductResponse
     class Meta:
         model = CartItem
         fields = "__all__"
         exclude = ["cart"]
         from_attributes = True
 
-        
 class CartPatchRequest(ModelSchema):
     class Meta:
         model = Cart
