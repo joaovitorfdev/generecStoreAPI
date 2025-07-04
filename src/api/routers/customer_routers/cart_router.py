@@ -2,6 +2,7 @@ from uuid import UUID
 from django.http import HttpRequest
 from ninja import Router
 from ninja_jwt.authentication import JWTAuth
+from api.models import Stock
 from ...models.cart import Cart,CartItem
 from ...schemas.cart_schema import CartResponse, CartPatchRequest, CartItemCreate,CartItemPatch
 router = Router()
@@ -13,7 +14,8 @@ def add_cart_item(request: HttpRequest, model:CartItemCreate):
     if not request.user.is_authenticated:
         return 404, None
     customer_cart = Cart.objects.get(user= request.user.id)
-    cartItem, _ = CartItem.objects.get_or_create(cart=customer_cart,**model.model_dump())
+    cartItem, _ = CartItem.objects.get_or_create(cart=customer_cart, size=model.size)
+    cartItem.quantity = model.quantity
     cartItem.save()
     return 204, None
 
@@ -21,7 +23,12 @@ def add_cart_item(request: HttpRequest, model:CartItemCreate):
 def edit_cart_item(request: HttpRequest, cart_item_Id:UUID, model:CartItemPatch):
     if not request.user.is_authenticated:
         return 404, None
-    CartItem.objects.filter(id=cart_item_Id).update(**model.model_dump(exclude_unset=True))
+    cart_item = CartItem.objects.get(id=cart_item_Id)
+    product_stock = Stock.objects.get(product = cart_item.product,size=cart_item.size)
+
+    if model.quantity <= product_stock.quantity:
+        cart_item.quantity = model.quantity
+    cart_item.save()
     return 204 , None
 
 
@@ -31,8 +38,6 @@ def remove_cart_item(request: HttpRequest, cart_item_Id:UUID):
         return 404, None
     CartItem.objects.filter(id=cart_item_Id).delete()
     return 204 , None
-
-
 
 @router.get("", response=CartResponse, auth=JWTAuth())
 def get_my_cart(request: HttpRequest):

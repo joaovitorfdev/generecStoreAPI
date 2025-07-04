@@ -44,7 +44,7 @@ run:
 	# src/fixtures/Cities.json \
 	# src/fixtures/VehicleType.json \
 	# && \
-	# $(PYTHON) src/manage.py shell -c "exec(open('src/create_superuser.py').read())" && \
+	$(PYTHON) src/manage.py shell -c "exec(open('src/create_superuser.py').read())" && \
 	$(PYTHON) src/manage.py runserver 0.0.0.0:8000
 
 .PHONY: run_tests

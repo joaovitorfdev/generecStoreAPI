@@ -21,7 +21,7 @@ class Product(BaseModel):
     @property
     def stocks(self):
         """Retorna a lista de estoques do produto com os campos exigidos pelo schema."""
-        return list(self.stock.values("id", "product_id", "size", "quantity"))
+        return list(self.stock.values("id", "size", "quantity"))
     
     @property
     def images_urls(self) -> list[str]:

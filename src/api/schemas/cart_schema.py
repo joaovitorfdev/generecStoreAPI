@@ -25,6 +25,7 @@ class CartItemPatch(ModelSchema):
 
 class CartItemResponse(ModelSchema):
     product:MinimumProductResponse
+    subtotal: float
     class Meta:
         model = CartItem
         fields = "__all__"
@@ -39,7 +40,9 @@ class CartPatchRequest(ModelSchema):
         
 class CartResponse(ModelSchema):
     items: list[CartItemResponse] = []
-    subtotal: float
+    total: float  | None = None
+    subtotal: float  
+    shipping_cost: float | None = None
     service:int
     to_cep:str | None = None
     class Meta:

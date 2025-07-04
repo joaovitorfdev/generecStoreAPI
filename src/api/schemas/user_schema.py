@@ -1,13 +1,8 @@
 # api/schemas/user_schema.py
-from datetime import datetime
-from typing import List
+from typing import Optional
 from uuid import UUID
-
-from ninja import Field, ModelSchema
-from pydantic import EmailStr
-
+from ninja import Schema, ModelSchema
 from api.models import User
-from api.schemas.cart_schema import CartResponse
 
 
 class UserCreateRequest(ModelSchema):
@@ -21,30 +16,17 @@ class UserCreateRequest(ModelSchema):
         ]
         from_attributes = True
 
-class UserUpdateRequest(ModelSchema):
-    class Meta:
-        model = User
-        fields = [
-            "first_name",
-            "last_name",
-            "username",
-            "email",
-            "password",
-        ]
-        from_attributes = True
-
-
-class UserPatchRequest(ModelSchema):
-    class Meta:
-        model = User
-        fields_optional = "__all__"
-        exclude = ["password"]
-        from_attributes = True
+class UserPatchRequest(Schema):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    username: Optional[str] = None
+    email: Optional[str] = None
+    document: Optional[str] = None
+    phone: Optional[str] = None
 
 class UserResponse(ModelSchema):
     id: UUID
-    cart: CartResponse
-
+    name:str
     class Meta:
         
         model = User
@@ -54,6 +36,8 @@ class UserResponse(ModelSchema):
             "last_name",
             "username",
             "email",
+            "document",
+            "phone",
             "date_joined",
         ]
         from_attributes = True

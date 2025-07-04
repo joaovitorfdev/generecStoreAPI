@@ -21,7 +21,9 @@ class CustomTokenObtainPairOutputSchema(BaseModel):
     username: str
     user_id: UUID
     full_name: str
-
+    first_name: str
+    last_name: str
+    email: str
 @api_controller("/token", tags=["token"], auth=None)
 class CustomTokenObtainPairView(TokenObtainPairController):
     @route.post(
@@ -44,7 +46,10 @@ class CustomTokenObtainPairView(TokenObtainPairController):
                 "refresh": str(refresh),
                 "username": user.username,
                 "user_id": user.id,
-                "full_name": f"{user.first_name} {user.last_name}".strip() or user.username
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "full_name": f"{user.first_name} {user.last_name}".strip() or user.username,
+                "email": user.email,
             }
             logger.info(f"Successfully obtained token for user: {token.username}")
             return data

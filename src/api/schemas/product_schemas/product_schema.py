@@ -3,7 +3,7 @@ from decimal import Decimal
 from uuid import UUID
 
 from ninja import ModelSchema
-from api.models import Product 
+from api.models import Product, Stock
   # adjust your import path
 from api.schemas.product_schemas.stock_schema import StockBaseSchema
 from api.schemas.product_schemas.product_image_schema import ProductImageResponse
@@ -47,3 +47,8 @@ class ProductResponse(ModelSchema):
     class Config:
         model = Product
         model_fields = "__all__"
+
+class StockResponse(ModelSchema):
+    class Config:
+        model = Stock
+        model_fields = ['quantity']

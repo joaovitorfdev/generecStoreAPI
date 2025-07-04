@@ -1,2 +1,2 @@
 from .user import User
-from .product_models import Product, ProductImage
+from .product_models import Product, ProductImage, Stock
